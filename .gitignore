@@ -5,3 +5,4 @@ email-crawler/.idea/inspectionProfiles/Project_Default.xml
 email-crawler/.idea/misc.xml
 email-crawler/.idea/modules.xml
 email-crawler/.idea/vcs.xml
+*.gz
