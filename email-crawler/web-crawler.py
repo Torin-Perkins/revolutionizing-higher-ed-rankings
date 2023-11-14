@@ -3,6 +3,10 @@ import requests, json
 import sys
 import csv
 import re
+from lxml import etree as ElementTree
+import csv
+import operator
+import re
 
 """
 Notes 11/4/2023
@@ -94,4 +98,5 @@ def run_scraper():
                 print(f"Failed to fetch content from {item['link']}")
 
 
-run_scraper()
+#run_scraper()
+parse_dblp()
