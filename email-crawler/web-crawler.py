@@ -1,27 +1,26 @@
-import time
-
+"""
+Web Crawler
+Authors: Aaron Ducote and Torin Perkins
+"""
 from bs4 import BeautifulSoup
 import requests, json
-import sys
 import csv
-import re
-from lxml import etree as ElementTree
-import csv
-import operator
 import re
 
-"""
-Notes 11/4/2023
-Check CSRanking ./util because contains good information about getting records from dblp
-May want to add something about cross referencing institutions with countries to ensure we stay in the US
-"""
+
 def filter_america(author_list):
+    """
+    filter_america: filters university list based on list of American Universities
+    :param author_list: the list of authors and their universities from given csv
+    :returns updated_author_list: the filtered author list
+    """
+    # get list of US schools
     us_schools = csv.reader(open("us_universities.csv", "r"), delimiter=",")
     us_schools_list = []
     updated_author_list = []
     for row in us_schools:
         us_schools_list.append(row[0])
-
+    # filter list
     for item in author_list:
         if item[1] in us_schools_list:
             updated_author_list.append(item)
@@ -29,31 +28,44 @@ def filter_america(author_list):
 
 
 def run_scraper():
+    """
+    run_scraper: scrapes the web for emails of professors given a csv of their name and association
+    :return:
+    """
+    """"""""""""
+
+    # -----------------------------
+    # file name to read
     file_name = 'csrankings-a'
+    # -----------------------------
+
     output_file = file_name + '_emails.csv'
+    # read csv
     csv_file = csv.reader(open(file_name + '.csv', "r", encoding="utf-8"), delimiter=",")
     csv.writer(open(output_file, "w")).writerow(['site title', 'email found'])
 
+    # headers for bs4
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'}
+
+    # create author list
     author_list = []
     for row in csv_file:
-        #print(row[0])
-        #print(row[1])
         author_list.append([row[0], row[1]])
 
+    # filter american schools
     updated_author_list = filter_america(author_list)
-    #time.sleep(5)
-    print(len(author_list))
-    print(len(updated_author_list))
+
     for item in updated_author_list:
+        # create search term string
         search_term = item[0] + ' ' + item[1]
         search_term = re.sub(r"[^\w\s]", '', search_term)
         search_term = re.sub(r"\s+", '+', search_term)
-        print(search_term)
+
         goog_search = \
             "https://www.google.com/search?q=" \
             + search_term
+        # do google search for author
         response = requests.get(goog_search, headers=headers)
         soup = BeautifulSoup(response.text, "html.parser")
 
@@ -62,6 +74,7 @@ def run_scraper():
         g = 0
         Data = []
         l = {}
+        # filter through all links found
         for i in range(0, len(allData)):
             link = allData[i].find('a').get('href')
 
@@ -90,8 +103,10 @@ def run_scraper():
 
             else:
                 continue
-        print(Data)
+        #print(Data)
 
+        # find mailto link for each link found
+        # break on the first one
         for item1 in Data:
             try:
                 response = requests.get(item1['link'])
@@ -121,4 +136,3 @@ def run_scraper():
 
 
 run_scraper()
-
