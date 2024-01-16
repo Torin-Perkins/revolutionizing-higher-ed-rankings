@@ -6,6 +6,8 @@ from bs4 import BeautifulSoup
 import requests, json
 import csv
 import re
+from string import ascii_lowercase as alc
+
 
 
 def filter_america(author_list):
@@ -27,7 +29,7 @@ def filter_america(author_list):
     return updated_author_list
 
 
-def run_scraper():
+def run_scraper(file_name, usa=False):
     """
     run_scraper: scrapes the web for emails of professors given a csv of their name and association
     :return:
@@ -36,13 +38,17 @@ def run_scraper():
 
     # -----------------------------
     # file name to read
-    file_name = 'csrankings-a'
-    # -----------------------------
 
-    output_file = file_name + '_emails.csv'
+    # -----------------------------
+    if usa:
+        output_file = 'emails/usa only/' + file_name + '_usa_emails.csv'
+    else:
+        output_file = 'emails/international/' + file_name + '_emails.csv'
+
     # read csv
-    csv_file = csv.reader(open(file_name + '.csv', "r", encoding="utf-8"), delimiter=",")
+    csv_file = csv.reader(open('names/' + file_name + '.csv', "r", encoding="utf-8"), delimiter=",")
     csv.writer(open(output_file, "w")).writerow(['site title', 'email found'])
+
 
     # headers for bs4
     headers = {
@@ -54,14 +60,17 @@ def run_scraper():
         author_list.append([row[0], row[1]])
 
     # filter american schools
-    updated_author_list = filter_america(author_list)
+    if usa:
+        updated_author_list = filter_america(author_list)
+    else:
+        updated_author_list = author_list
 
     for item in updated_author_list:
         # create search term string
         search_term = item[0] + ' ' + item[1]
         search_term = re.sub(r"[^\w\s]", '', search_term)
         search_term = re.sub(r"\s+", '+', search_term)
-
+        print(search_term)
         goog_search = \
             "https://www.google.com/search?q=" \
             + search_term
@@ -134,5 +143,5 @@ def run_scraper():
             else:
                 print(f"Failed to fetch content from {item1['link']}")
 
-
-run_scraper()
+for letter in alc:
+    run_scraper('csrankings-'+letter, True)
