@@ -3,6 +3,7 @@ Web Crawler 2
 Authors: Aaron Ducote and Torin Perkins
 """
 import ssl
+import sys
 
 from bs4 import BeautifulSoup
 import requests, json
@@ -198,8 +199,14 @@ def filter_non_ascii(input_str):
     return re.sub(r'[^\x00-\x7F]+', '', input_str)
 
 if __name__ == "__main__":
-
     # for letter in alc:
         #run_scraper('csrankings-' + letter, False)
-    run_scraper('csrankings-k', True)
+    letter = 0
+    for i, arg in enumerate(sys.argv):
+        if(len(arg) == 1 and arg.isalpha()):
+            letter = arg
+    if(letter == 0):
+        print("""run_scraper('csrankings-g', False)""")
+    else:
+        print("""run_scraper(""" + 'csrankings-' + letter + """, False)""")
     print(total_requests)
