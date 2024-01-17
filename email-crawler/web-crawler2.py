@@ -177,13 +177,17 @@ def google_search(item, output_file):
 
             if links:
                 for i in links:
-                    if 'mailto' in str(i):  # if mailto is seen anywhere in the link
-                        print(i['href'][7:])  # Cuts out the 'mailto:' part
-                        file = open(output_file, "a")
-                        csv.writer(file).writerow([item[0], i['href'][7:]])
-                        file.close()
+                    try:
+                        if 'mailto' in str(i):  # if mailto is seen anywhere in the link
+                            print(i['href'][7:])  # Cuts out the 'mailto:' part
+                            file = open(output_file, "a")
+                            csv.writer(file).writerow([item[0], i['href'][7:]])
+                            file.close()
 
-                        break  # Only one email from each page
+                            break  # Only one email from each page
+                    except KeyError:
+                        print("href unidentified")
+                        break
                 break
             else:
                 print("No mailto links found on the webpage.")
@@ -197,5 +201,5 @@ if __name__ == "__main__":
 
     # for letter in alc:
         #run_scraper('csrankings-' + letter, False)
-    run_scraper('csrankings-h', True)
+    run_scraper('csrankings-k', True)
     print(total_requests)
