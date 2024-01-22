@@ -206,7 +206,7 @@ if __name__ == "__main__":
         if(len(arg) == 1 and arg.isalpha()):
             letter = arg
     if(letter == 0):
-        print("""run_scraper('csrankings-g', False)""")
+        run_scraper('csrankings-g', False)
     else:
-        print("""run_scraper(""" + 'csrankings-' + letter + """, False)""")
+        print(run_scraper('csrankings-' + letter, False))
     print(total_requests)
