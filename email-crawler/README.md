@@ -1,0 +1,6 @@
+<h1>Web Crawler</h1>
+<h3>Code by Torin Perkins and Aaron Ducote, documentation by Elliot Foley</h3>
+<h2>Purpose</h2>
+Gathers the names and associated emails for professors in the CSV.
+<h2>Details and Usage</h2>
+The CSV must a) be in the folder `/names`, b) have the name "csrankings-" + letter + ".csv" and c) have the form: name, affiliation, homepage, and scholarid; this is the format that it is stored in by CSRankings. To run for a specific CSV one can either modify the lettering in the main function and run it with `python web-crawler2.py` or run the code with an added command line argument, like `python web-crawler2.py a` where "a" can be replaced by whichever letter you would like to run it on. As the program is running, keep an eye on it; if the "Conducting Google Search on Request" number reaches 1000, stop immediately and do not run it for an hour to avoid being flagged as a bot by Google. The program will output a CSV with two associated columns "name" and "email" in the `/emails` folder.
