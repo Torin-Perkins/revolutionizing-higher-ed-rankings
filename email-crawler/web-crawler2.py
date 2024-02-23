@@ -35,9 +35,18 @@ def filter_america(author_list):
 def run_scraper(file_name, usa=False):
     """
     run_scraper: scrapes the web for emails of professors given a csv of their name and association
-    :return:
+    
+    Parameters:
+    - file_name (str): The name of the CSV file (not including path or extention) containing the names and websites of professors.
+    - usa (bool): A flag indicating whether to restrict the search to universities in the USA. Default is False.
+    
+    Output:
+    This function doesn't return anything. It scrapes the web for emails of professors based on the provided CSV
+    file and writes the results to a new CSV file.
+
+    Example:
+    >>> run_scraper("csrankings-g", usa=True)
     """
-    """"""""""""
 
     # -----------------------------
     # file name to read
@@ -110,6 +119,20 @@ def run_scraper(file_name, usa=False):
 
 
 def google_search(item, output_file):
+    """
+    google_search: Searches Google for the specified item and appends the result to the output file.
+
+    Parameters:
+    - item (str): The name to search on Google.
+    - output_file (str): The path, name, and extension of the output file where the search result will be appended.
+
+    Output:
+    This function does not return anything. If the search is successful, it appends the result to the specified output file.
+    If the search fails or encounters an error, nothing will be appended to the file.
+
+    Example:
+    >>> google_search("John Doe", "search_results.csv")
+    """
     global total_requests
     total_requests += 1
     print("Conducting Google Search on Request: " + str(total_requests))
