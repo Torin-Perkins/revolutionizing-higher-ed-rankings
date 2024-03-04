@@ -12,6 +12,7 @@ def filter_emails(letter):
     filter_emails: filters emails to take out incorrect addresses
     :param letter: letter of emails to be filtered
     """
+
     output_file = 'csrankings-' + letter + '_emails_filtered.csv'
 
     csv_file = csv.reader(open('csrankings-' + letter + '_emails.csv', "r"), delimiter=",")
@@ -65,6 +66,6 @@ def filter_non_ascii(input_str):
 
 
 if __name__ == "__main__":
-    filter_emails('z')    # Enter letter you want to filter
+    filter_emails('m')    # Enter letter you want to filter
     print('open csrankings-letter_emails_filtered.csv for filtered results')
 
