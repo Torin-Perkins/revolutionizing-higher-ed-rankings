@@ -34,7 +34,66 @@ const data = rows.map(row => {
 	}, {});
 });
 
+var categories = [];
 console.log(data);
+
+function displayFilters() { //dynamically creating filter table 
+    var table = document.getElementById('filterTable');
+    var tableBody = table.getElementsByTagName('tbody')[0];
+    tableBody.innerHTML = ''; // Clear existing rows
+    const columns = Object.keys(data[0]);
+
+    for (let index=2; index<columns.length; index++) {
+        categories.push(columns[index]);
+        const row = tableBody.insertRow();
+        row.innerHTML = `
+                    <td>${columns[index]}</td>
+                    <td> 
+                        <label class="switch">
+                            <input id="${columns[index]}" type="checkbox" onclick="displayRankings()">
+                            <span class="slider round"></span>
+                        </label>
+                    </td>`;
+        
+    };
+}
+
+
+function displayRankings() {
+    let calculatedScores = [];
+    data.forEach(university => {
+        var totalScore = 0; 
+        categories.forEach(categoryName => {
+            var selected = document.getElementById(categoryName).checked;
+            if (selected === true) {
+                totalScore = totalScore + parseInt(university[categoryName]);
+                
+            }
+        });
+        const universityData = {University:university.University, score:totalScore};
+       calculatedScores.push(universityData);
+
+    });
+    calculatedScores = calculatedScores.sort((a, b) => {
+          if (a.score > b.score) {
+            return -1;
+          }
+    });
+    var table = document.getElementById('rankingTable');
+    var tableBody = table.getElementsByTagName('tbody')[0];
+    tableBody.innerHTML = ''; // Clear existing rows
+            var rank = 1;
+            calculatedScores.forEach(university => {
+                const row = tableBody.insertRow();
+                row.innerHTML = `
+                    <td>${rank}</td>
+                    <td>${university.University}</td>
+                    <td>${university.score}</td>`;
+                rank++;
+            });
+}
+
+
 
 function getScore(universityName, categoryName) {
     // Find the row corresponding to the university
@@ -60,6 +119,7 @@ function getScore(universityName, categoryName) {
 const universityName = "Stanford University";
 const categoryName = "Artificial Intelligence";
 const score = getScore(universityName, categoryName);
+displayFilters();
 
 if (score !== null) {
     console.log(`Score for ${categoryName} at ${universityName}: ${score}`);
