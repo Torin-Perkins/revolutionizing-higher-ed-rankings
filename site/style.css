@@ -4,11 +4,7 @@ body {
     text-align: center;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-family: Arial, sans-serif;
-}
+
 
 th {
     border: 1px solid #dddddd;
@@ -35,6 +31,9 @@ tr:nth-child(even) {
 tr:hover {
     background-color: #dddddd;
 }
+
+
+
 
 
 /* from https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_switch */
@@ -98,3 +97,40 @@ tr:hover {
   .slider.round:before {
     border-radius: 50%;
   }
+
+
+
+
+.content{
+    position: relative;
+    padding: 0.5%;
+}
+
+.filter-container{
+    background-color: rgb(233, 230, 230);
+    width: 200px;
+    padding: 5px;
+    padding-left: 10px;
+    position: relative;
+    
+}
+
+.table-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Divide container into two equal columns */
+  gap: 10px; /* Adjust gap between columns */
+}
+
+#filterTable {
+  width: 100%;
+}
+
+#rankingTable{
+  width: 350%;
+}
+
+#tableContainer table, tr, th{
+  box-shadow: none;
+  border: 0;
+  border-color: transparent;
+}
